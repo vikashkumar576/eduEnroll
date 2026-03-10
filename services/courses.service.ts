@@ -6,7 +6,9 @@ import { ApiResponse, Course } from "@/types";
  */
 export async function getCourses(): Promise<Course[]> {
   const response = await api.get<ApiResponse<Course[]>>("/api/courses");
-  return response.data.data;
+  const data = response.data?.data;
+  if (!data) throw new Error("No courses data returned from API");
+  return data;
 }
 
 /**
@@ -14,5 +16,7 @@ export async function getCourses(): Promise<Course[]> {
  */
 export async function getCourse(id: string): Promise<Course> {
   const response = await api.get<ApiResponse<Course>>(`/api/courses/${id}`);
-  return response.data.data;
+  const data = response.data?.data;
+  if (!data) throw new Error(`No data returned for course ${id}`);
+  return data;
 }

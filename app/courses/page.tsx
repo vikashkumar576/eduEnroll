@@ -94,7 +94,10 @@ async function CoursesGrid() {
   let usedMock = false;
 
   try {
-    courses = await getCourses();
+    const result = await getCourses();
+    courses = Array.isArray(result) ? result : MOCK_COURSES;
+    if (courses.length === 0) courses = MOCK_COURSES;
+    usedMock = courses === MOCK_COURSES;
   } catch {
     courses = MOCK_COURSES;
     usedMock = true;
